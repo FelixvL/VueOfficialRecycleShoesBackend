@@ -21,6 +21,16 @@ function getProefData(){
   allsuppliers.push(supplier2);
   return allsuppliers;
 }
+const {createPool} = require('mysql');
+
+const pool = createPool({
+  host: "localhost",
+  user: "root",
+  password: "root",
+  database: "recycle-shoes",
+  connectionLimit: 10,
+});
+
 console.log("hoi");
 const express = require('express');
 const cors = require('cors')
@@ -38,17 +48,24 @@ async function  getAllSuppliers (){
     return console.log(r);
   })
 }
-
+async function go(){
+  return await getAllSuppliers();
+}
 
 app.get('/getallsuppliers',(request, response)=>{
   console.log("getallesuppliers");
-  let allsuppliers = getProefData();
+  let allsuppliers = go();
   response.json(allsuppliers);
 });
 app.get('/test',(request, response)=>{
   console.log("test");
-  let result = getAllSuppliers()
-  response.json( result );
+  pool.query('select * from schip', function (err, recordset) {
+            
+    if (err) console.log(err)
+
+    // send records as a response
+    response.send(recordset);
+  });
 });
 app.get('/todos',(request, response)=>{
   console.log("todos");
@@ -76,15 +93,7 @@ app.post('/todos',(req, res)=>{
     // })
   });
 
-const {createPool} = require('mysql');
 
-const pool = createPool({
-  host: "localhost",
-  user: "root",
-  password: "root",
-  database: "recycle-shoes",
-  connectionLimit: 10,
-});
 
 
 
