@@ -10,17 +10,27 @@ function getProefData(){
   supplier1.place = "Utrecht";
   supplier1.contactperson = "Johan";
   supplier1.phonenumber = "06 - 65379212";
-  supplier2.name = "BestOfShoes";
-  supplier2.email = "info@bos.nl";
-  supplier2.address = "bekelaan 14";
-  supplier2.zipcode = "6622 GB";
-  supplier2.place = "Utrecht";
-  supplier2.contactperson = "Johan";
-  supplier2.phonenumber = "06 - 65379212";
+  supplier2.name = "GiveMeMore";
+  supplier2.email = "info@gmm.nl";
+  supplier2.address = "verdestraat 34";
+  supplier2.zipcode = "3454 BR";
+  supplier2.place = "Arnhem";
+  supplier2.contactperson = "Ronald";
+  supplier2.phonenumber = "06 - 73261134";
   allsuppliers.push(supplier1);
   allsuppliers.push(supplier2);
   return allsuppliers;
 }
+const {createPool} = require('mysql');
+
+const pool = createPool({
+  host: "localhost",
+  user: "root",
+  password: "root",
+  database: "recycle-shoes",
+  connectionLimit: 10,
+});
+
 console.log("hoi");
 const express = require('express');
 const cors = require('cors')
@@ -30,15 +40,33 @@ app.use(cors())
 app.use(express.static('public'));
 
 
-
-
+async function  getAllSuppliers (){
+  pool.query(`select * from schip`, (e,r,f)=>{
+    if(e){
+      return console.log(e);
+    }
+    return console.log(r);
+  })
+}
+async function go(){
+  return await getAllSuppliers();
+}
 
 app.get('/getallsuppliers',(request, response)=>{
   console.log("getallesuppliers");
-  let allsuppliers = getProefData();
+  let allsuppliers = go();
   response.json(allsuppliers);
 });
+app.get('/test',(request, response)=>{
+  console.log("test");
+  pool.query('select * from schip', function (err, recordset) {
+            
+    if (err) console.log(err)
 
+    // send records as a response
+    response.send(recordset);
+  });
+});
 app.get('/todos',(request, response)=>{
   console.log("todos");
   response.json(
@@ -65,15 +93,11 @@ app.post('/todos',(req, res)=>{
     // })
   });
 
-const {createPool} = require('mysql');
 
-const pool = createPool({
-  host: "localhost",
-  user: "root",
-  password: "root",
-  database: "recycle-shoes",
-  connectionLimit: 10,
-});
+
+
+
+
 
 pool.query(`select * from schip`, (e,r,f)=>{
   if(e){
