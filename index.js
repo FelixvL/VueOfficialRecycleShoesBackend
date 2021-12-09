@@ -35,6 +35,10 @@ console.log("hoi");
 const express = require('express');
 const cors = require('cors')
 const app = express();
+//const bodyParser = require('body-parser');
+
+app.use(express.urlencoded());
+app.use(express.json());  
 app.listen(5000, ()=> console.log('hier gaan we'));
 app.use(cors())
 app.use(express.static('public'));
@@ -97,14 +101,15 @@ app.get('/todos',(request, response)=>{
     );
 });
 
-app.post('/todos',(req, res)=>{
-    console.log("post is gelukt");
-    // pool.query(`insert into schip(id, lengte, naam, kapitein) VALUE (NULL, 100, 'die','daar')`, (e,r,f)=>{
-    //   if(e){
-    //     return console.log(e);
-    //   }
-    //   return console.log(r);
-    // })
+app.post('/suppliertoevoegen',(req, res)=>{
+    console.log("post is gelukt"+req.body.voornaam);
+     pool.query(`insert into suppier(id, name, email, address) VALUE (NULL, '${req.body.name}', 'die','daar')`, (e,r,f)=>{
+       if(e){
+         return console.log(e);
+       }
+       return console.log(r);
+   })
+   res.send("yes");
   });
 
 
