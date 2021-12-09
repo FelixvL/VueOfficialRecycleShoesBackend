@@ -57,6 +57,8 @@ app.get('/getallsuppliers',(request, response)=>{
   let allsuppliers = getProefData();
   response.json(allsuppliers);
 });
+
+
 app.get('/test',(request, response)=>{
   console.log("test");
   pool.query('select * from schip', function (err, recordset) {
@@ -67,6 +69,18 @@ app.get('/test',(request, response)=>{
     response.send(recordset);
   });
 });
+
+app.get('/getallsuppliersdb',(request, response)=>{
+  console.log("test");
+  pool.query('select * from suppier', function (err, recordset) {
+            
+    if (err) console.log(err)
+
+    // send records as a response
+    response.send(recordset);
+  });
+});
+
 app.get('/todos',(request, response)=>{
   console.log("todos");
   response.json(
