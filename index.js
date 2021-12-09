@@ -10,13 +10,13 @@ function getProefData(){
   supplier1.place = "Utrecht";
   supplier1.contactperson = "Johan";
   supplier1.phonenumber = "06 - 65379212";
-  supplier2.name = "BestOfShoes";
-  supplier2.email = "info@bos.nl";
-  supplier2.address = "bekelaan 14";
-  supplier2.zipcode = "6622 GB";
-  supplier2.place = "Utrecht";
-  supplier2.contactperson = "Johan";
-  supplier2.phonenumber = "06 - 65379212";
+  supplier2.name = "GiveMeMore";
+  supplier2.email = "info@gmm.nl";
+  supplier2.address = "verdestraat 34";
+  supplier2.zipcode = "3454 BR";
+  supplier2.place = "Arnhem";
+  supplier2.contactperson = "Ronald";
+  supplier2.phonenumber = "06 - 73261134";
   allsuppliers.push(supplier1);
   allsuppliers.push(supplier2);
   return allsuppliers;
@@ -30,7 +30,14 @@ app.use(cors())
 app.use(express.static('public'));
 
 
-
+async function  getAllSuppliers (){
+  pool.query(`select * from schip`, (e,r,f)=>{
+    if(e){
+      return console.log(e);
+    }
+    return console.log(r);
+  })
+}
 
 
 app.get('/getallsuppliers',(request, response)=>{
@@ -38,7 +45,11 @@ app.get('/getallsuppliers',(request, response)=>{
   let allsuppliers = getProefData();
   response.json(allsuppliers);
 });
-
+app.get('/test',(request, response)=>{
+  console.log("test");
+  let result = getAllSuppliers()
+  response.json( result );
+});
 app.get('/todos',(request, response)=>{
   console.log("todos");
   response.json(
@@ -74,6 +85,10 @@ const pool = createPool({
   database: "recycle-shoes",
   connectionLimit: 10,
 });
+
+
+
+
 
 pool.query(`select * from schip`, (e,r,f)=>{
   if(e){
