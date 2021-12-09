@@ -40,7 +40,7 @@ const pool = createPool({
   host: "localhost",
   user: "root",
   password: "root",
-  database: "recyle-shoes",
+  database: "recycle-shoes",
   connectionLimit: 10,
 });
 
