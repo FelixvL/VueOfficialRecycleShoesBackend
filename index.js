@@ -54,7 +54,7 @@ async function go(){
 
 app.get('/getallsuppliers',(request, response)=>{
   console.log("getallesuppliers");
-  let allsuppliers = go();
+  let allsuppliers = getProefData();
   response.json(allsuppliers);
 });
 app.get('/test',(request, response)=>{
