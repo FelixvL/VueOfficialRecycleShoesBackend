@@ -107,7 +107,7 @@ app.post('/suppliertoevoegen',(req, res)=>{
     console.log("post is gelukt"+req.body.voornaam);
     // validatie  a-z 
     // prepared statement                 parameterisen
-     pool.query(`insert into supplier(id, name, email, address) VALUE (NULL, '${req.body.name}', 'die','daar')`, (e,r,f)=>{
+     pool.query(`insert into supplier(id, name, email, address, zipcode, place, contactperson, phonenumber, delivery) VALUES (NULL, '${req.body.name}', '${req.body.email}','${req.body.address}', '${req.body.zipcode}', '${req.body.place}', '${req.body.contactperson}', '${req.body.phonenumber}', '${req.body.delivery}')`, (e,r,f)=>{
        if(e){
          return console.log(e);
        }
