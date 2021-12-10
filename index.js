@@ -42,7 +42,9 @@ app.use(express.json());
 app.listen(5000, ()=> console.log('hier gaan we'));
 app.use(cors())
 app.use(express.static('public'));
-
+// api design principles  app.get(/suppliers) of suppliersbyid  
+// rest api design principles
+// body parser enablen
 
 async function  getAllSuppliers (){
   pool.query(`select * from schip`, (e,r,f)=>{
@@ -76,7 +78,7 @@ app.get('/test',(request, response)=>{
 
 app.get('/getallsuppliersdb',(request, response)=>{
   console.log("test");
-  pool.query('select * from suppier', function (err, recordset) {
+  pool.query('select * from supplier', function (err, recordset) {
             
     if (err) console.log(err)
 
@@ -103,7 +105,9 @@ app.get('/todos',(request, response)=>{
 
 app.post('/suppliertoevoegen',(req, res)=>{
     console.log("post is gelukt"+req.body.voornaam);
-     pool.query(`insert into suppier(id, name, email, address) VALUE (NULL, '${req.body.name}', 'die','daar')`, (e,r,f)=>{
+    // validatie  a-z 
+    // prepared statement                 parameterisen
+     pool.query(`insert into supplier(id, name, email, address) VALUE (NULL, '${req.body.name}', 'die','daar')`, (e,r,f)=>{
        if(e){
          return console.log(e);
        }
